@@ -90,7 +90,9 @@ class TestDocumentParser(unittest.TestCase):
         self.assertIn("+971568098085", phones_international_no_space)
 
         # Test for an international phone number with spaces and irregular delimiters.
-        text_international_with_space_type_1 = "Please call +971 56 809 8085 for more info."
+        text_international_with_space_type_1 = (
+            "Please call +971 56 809 8085 for more info."
+        )
         text_international_with_space_type_2 = (
             "Please call +971 568098085 for more info."
         )

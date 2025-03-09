@@ -92,7 +92,6 @@ class DocumentParser:
         REGEX_PATTERN = r"[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+"
         return re.findall(REGEX_PATTERN, self.text)
 
-
     def extract_phone_numbers(self) -> list:
         """
         Extract phone numbers from the cleaned text.
@@ -131,7 +130,6 @@ class DocumentParser:
                 phones.append(match)
 
         return phones
-
 
     def extract_name(self) -> str:
         """
