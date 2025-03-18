@@ -131,20 +131,17 @@ class DocumentParser:
 
         return phones
 
-    def extract_name(self) -> str:
+    def extract_name(self) -> list:
         """
-        A very naive heuristic for extracting a person's name.
-        It looks at the original text's first few lines, returning the first line
-        that contains only alphabetic characters and spaces and has at least two words.
+        Extract all matching name candidates from the original text using regex.
+        Returns:
+            List[str]: All matches from the regex pattern.
         """
-        lines = self.original_text.splitlines()
-        for line in lines:
-            line = line.strip()
-            if line and all(char.isalpha() or char.isspace() for char in line):
-                words = line.split()
-                if len(words) >= 2:
-                    return line
-        return ""
+        #! TODO : NEED TO FIND WAY TO REMOVE ALL THE NON NAMES returned in this list
+        # Regex pattern to match names (supports title-case and all uppercase, with hyphens/apostrophes)
+        regex_pattern = r"\b(?:[A-Z][a-z]+|[A-Z]+)(?:[-' ](?:[A-Z][a-z]+|[A-Z]+))*\b"
+        # Return all matches found in the original text.
+        return re.findall(regex_pattern, self.original_text)
 
     def extract_skills(self) -> list:
         """

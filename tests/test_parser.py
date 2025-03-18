@@ -119,8 +119,51 @@ class TestDocumentParser(unittest.TestCase):
         self.assertIn("+971568098085", phones_international_with_space_type_2)
 
     def test_extract_name(self):
-        name = self.parser.extract_name()
-        self.assertEqual(name, "John Doe")
+        names = self.parser.extract_name()
+        self.assertIn("John Doe", names)
+
+        name_test = """
+        Name : JOEL STEPHEN
+        """
+        name_test_parser = DocumentParser(name_test)
+        names_test = name_test_parser.extract_name()
+        self.assertIn("JOEL STEPHEN", names_test)
+
+        candidates_text = """
+            JOEL STEPHEN
+            MARY ANN LOUISE
+            John Smith
+            John-Paul Smith
+            O'Connor
+            Alice
+            Jean-Luc Picard
+            Anne Marie
+            JANE
+            John O'Neil
+            12345
+            hello world
+            john smith
+        """
+        candidate_parser = DocumentParser(candidates_text)
+        names_list = candidate_parser.extract_name()
+        expected_names = [
+            "JOEL STEPHEN",
+            "MARY ANN LOUISE",
+            "John Smith",
+            "John-Paul Smith",
+            "O'Connor",
+            "Alice",
+            "Jean-Luc Picard",
+            "Anne Marie",
+            "JANE",
+            "John O'Neil",
+        ]
+        for expected in expected_names:
+            self.assertIn(expected, names_list)
+
+        self.assertNotIn("12345", names_list)
+        self.assertNotIn("hello world", names_list)
+        self.assertNotIn("john smith", names_list)
 
     def test_extract_skills(self):
         skills = self.parser.extract_skills()
